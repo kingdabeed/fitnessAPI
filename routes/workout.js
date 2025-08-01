@@ -5,9 +5,10 @@ const workoutController = require("../controllers/workout");
 
 router.use(auth.verify);
 
-router.post("/", workoutController.addWorkout);
-router.get("/", workoutController.getWorkouts);
-router.patch("/:id", workoutController.updateWorkout);
-router.delete("/:id", workoutController.deleteWorkout);
+router.post("/addWorkout", workoutController.addWorkout);
+router.get("/getMyWorkouts", workoutController.getMyWorkouts); 
+router.patch("/updateWorkout", workoutController.updateWorkout);
+router.delete("/deleteWorkout", workoutController.deleteWorkout); 
+router.patch("/completeWorkoutStatus", workoutController.completeWorkoutStatus);
 
 module.exports = router;
