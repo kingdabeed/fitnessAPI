@@ -4,16 +4,17 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "FitnessAPI";
 
 if (!secret) {
-  throw new Error("JWT_SECRET is not set in .env");
+  throw new Error("JWT_SECRET is not set in environment");
 }
 
 module.exports.createAccessToken = (user) => {
-  const data = {
+  const payload = {
     id: user._id,
     email: user.email,
     isAdmin: user.isAdmin
   };
-  return jwt.sign(data, secret, { expiresIn: "1h" });
+
+  return jwt.sign(payload, secret, { expiresIn: "1h" });
 };
 
 module.exports.verify = (req, res, next) => {

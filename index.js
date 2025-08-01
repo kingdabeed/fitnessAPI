@@ -23,11 +23,11 @@ mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atl
 
 
 //Routes Middleware
-const workoutRoutes = require("./routes/workout");
 const userRoutes = require("./routes/user");
+const workoutRoutes = require("./routes/workout");
 
-app.use("/workouts", workoutRoutes);
 app.use("/users", userRoutes);
+app.use("/workouts", workoutRoutes);
 
 if (require.main === module) {
   app.listen(port, () => {

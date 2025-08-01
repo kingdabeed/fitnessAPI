@@ -6,9 +6,9 @@ const workoutController = require("../controllers/workout");
 router.use(auth.verify);
 
 router.post("/addWorkout", workoutController.addWorkout);
-router.get("/getMyWorkouts", workoutController.getMyWorkouts); 
+router.get("/getMyWorkouts", workoutController.getMyWorkouts);
 router.patch("/updateWorkout", workoutController.updateWorkout);
-router.delete("/deleteWorkout", workoutController.deleteWorkout); 
+router.delete("/deleteWorkout", workoutController.deleteWorkout);
 router.patch("/completeWorkoutStatus", workoutController.completeWorkoutStatus);
 
 module.exports = router;
