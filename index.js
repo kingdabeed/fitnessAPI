@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 //MongoDB database
-mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.acodovr.mongodb.net/?retryWrites=true&w=majority&appName=WDC028-Course-Booking", {
+mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.acodovr.mongodb.net/fitness-tracker-API?retryWrites=true&w=majority&appName=WDC028-Course-Booking", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
@@ -29,10 +29,10 @@ const userRoutes = require("./routes/user");
 app.use("/workouts", workoutRoutes);
 app.use("/users", userRoutes);
 
-if(require.main === module){
-	app.listen(process.env.PORT || 4000, () => {
-	    console.log(`API is now online on port ${ process.env.PORT || 4000 }`)
-	});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`API is now online on port ${port}`);
+  });
 }
 
 module.exports = {app,mongoose};

@@ -7,7 +7,7 @@ router.use(auth.verify);
 
 router.post("/", workoutController.addWorkout);
 router.get("/", workoutController.getWorkouts);
-router.put("/:id", workoutController.updateWorkout);
+router.patch("/:id", workoutController.updateWorkout);
 router.delete("/:id", workoutController.deleteWorkout);
 
 module.exports = router;

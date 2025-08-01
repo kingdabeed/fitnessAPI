@@ -26,10 +26,15 @@ exports.updateWorkout = (req, res) => {
   const { id } = req.params;
   Workout.findByIdAndUpdate(id, req.body, { new: true })
     .then(workout => {
-      if (!workout) return res.status(404).json({ message: "Workout not found" });
+      if (!workout) {
+        return res.status(404).json({ message: "Workout not found" });
+      }
       res.status(200).json(workout);
     })
-    .catch(err => res.status(500).json({ error: "Could not update workout" }));
+    .catch(err => {
+      console.error("Update error:", err);
+      res.status(500).json({ error: "Could not update workout" });
+    });
 };
 
 exports.deleteWorkout = (req, res) => {

@@ -1,41 +1,38 @@
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
-const secret = "inventoryManagement";
 
+const secret = process.env.JWT_SECRET || "FitnessAPI";
 
-    module.exports.createAccessToken = (user) => {
+if (!secret) {
+  throw new Error("JWT_SECRET is not set in .env");
+}
 
-        const data = {
-            id : user._id,
-            email : user.email,
-            isAdmin : user.isAdmin
-        };
+module.exports.createAccessToken = (user) => {
+  const data = {
+    id: user._id,
+    email: user.email,
+    isAdmin: user.isAdmin
+  };
+  return jwt.sign(data, secret, { expiresIn: "1h" });
+};
 
-        return jwt.sign(data, secret, {});
-        
-    };
+module.exports.verify = (req, res, next) => {
+  const token = req.headers.authorization;
 
-    module.exports.verify = (req, res, next) => {
-        console.log(req.headers.authorization);
+  if (!token) {
+    return res.status(401).json({ auth: "Failed", message: "No token provided" });
+  }
 
-        let token = req.headers.authorization;
+  const tokenWithoutBearer = token.startsWith("Bearer ") ? token.slice(7) : token;
 
-        if(typeof token === "undefined"){
-            return res.send({ auth: "Failed. No Token" });
-        } else {
-            token = token.slice(7, token.length);
-            jwt.verify(token, secret, function(err, decodedToken){
-
-                if(err){
-                    return res.send({
-                        auth: "Failed",
-                        message: err.message
-                    });
-
-                } else {
-
-                    req.user = decodedToken;
-                    next();
-                }
-            })
-        }
-    };
+  jwt.verify(tokenWithoutBearer, secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        auth: "Failed",
+        message: err.message
+      });
+    }
+    req.user = decoded;
+    next();
+  });
+};
